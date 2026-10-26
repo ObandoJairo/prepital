@@ -120,6 +120,9 @@ textarea:focus,input[type=text]:focus,input[type=password]:focus{border-color:va
 .empty{border:1px dashed var(--line);border-radius:12px;padding:28px 20px;color:var(--muted);text-align:center;display:flex;flex-direction:column;gap:6px}
 .empty p{margin:0;max-width:52ch;margin-inline:auto}
 .empty strong{color:var(--ink)}
+.demo{background:var(--accent-soft);border-radius:var(--r);padding:12px 14px;font-size:15px}
+.linkbtn{background:none;border:0;padding:4px 2px;color:var(--muted);font-size:13px;text-decoration:underline;cursor:pointer;margin-left:auto}
+.linkbtn:hover{color:var(--accent)}
 .copy{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:4px 9px;font-size:12px;font-weight:600;cursor:pointer;color:var(--muted)}
 .copy:hover{color:var(--accent);border-color:var(--accent)}
 .copy.done{color:var(--ok);border-color:var(--ok)}
@@ -215,13 +218,14 @@ textarea:focus,input[type=text]:focus,input[type=password]:focus{border-color:va
       <div class="field"><label class="lbl" for="extra">Notas adicionales <span class="hint">(opcional)</span></label>
         <textarea id="extra" placeholder="Público específico, énfasis, palabras a evitar…" style="min-height:60px"></textarea></div>
 
-      <div class="field span"><label class="lbl" for="codigo">Clave de API de Anthropic</label>
+      <div class="field span" id="keyField" hidden><label class="lbl" for="codigo">Clave de API de Anthropic</label>
         <input type="password" id="codigo" autocomplete="off" placeholder="sk-ant-…">
         <span class="hint">Versión de prueba. La clave se guarda solo en este navegador y se envía directamente a Anthropic. No uses esta versión en un computador compartido.</span></div>
 
       <div class="actions span">
         <button class="btn primary" type="submit" id="go">Generar pieza</button>
         <button class="btn ghost" type="button" id="stop" hidden>Detener</button>
+        <button class="linkbtn" type="button" id="keyToggle">Conectar clave de API</button>
       </div>
       <div class="history span" id="history" hidden><h3>Recientes</h3><ul id="histList"></ul></div>
     </form>
@@ -450,7 +454,7 @@ function parseJSON(text){
 }
 async function run(payload, label){
   const apiKey = $("#codigo").value.trim();
-  if (!apiKey){ $("#codigo").focus(); showStatus(ERR.config, true); return; }
+  if (!apiKey){ return runDemo(label); }
   let mensaje = payload.solicitud;
   if (payload.accion === "responder") mensaje += "\n\nCon estas respuestas, redacta las piezas. Pregunta de nuevo solo si sigue faltando algo imprescindible.";
   if (payload.accion === "ajustar") mensaje += "\n\nVERSIÓN ACTUAL:\n" + JSON.stringify(payload.actual || {}) + "\n\nAJUSTE SOLICITADO: " + payload.ajuste + "\n\nAplica solo el ajuste pedido, conserva lo demás y respeta todas las reglas. Devuelve las piezas completas en el mismo formato.";
@@ -543,6 +547,7 @@ function render(){
   }
   let h = `<div class="out-head"><h2>${state.isExample ? "Así se ve una pieza" : "Pieza generada"}</h2><div class="actions">${state.isExample ? '<span class="tag">Ejemplo</span>' : ""}${(r.correo||r.cartelera) ? '<button type="button" class="btn ghost" id="copyAll">Copiar todo</button>' : ""}</div></div>`;
 
+  if (state.isExample) h += `<div class="demo"><strong>Modo demostración.</strong> Esta es una pieza de ejemplo basada en comunicaciones reales de Prepital. En la versión final, la IA redacta una pieza nueva a partir de lo que escribas en el formulario, con la voz de marca y el manual de estilo.</div>`;
   if (r.preguntas.length && !r.correo && !r.cartelera){
     h += `<div class="qa"><p style="margin:0">Antes de redactar, necesito confirmar esto para no inventar información:</p>`;
     r.preguntas.forEach((q,i) => { h += `<div class="field"><label class="q" for="qa${i}">${esc(q)}</label><textarea id="qa${i}" style="min-height:56px" placeholder="Si lo dejas vacío, ese dato se omite."></textarea></div>`; });
@@ -599,6 +604,41 @@ async function copy(text, btn){
   const t = btn.textContent; btn.textContent = "Copiado"; btn.classList.add("done");
   setTimeout(() => { btn.textContent = t; btn.classList.remove("done"); }, 1400);
 }
+/* ---------- modo demostración (sin clave de API) ---------- */
+const DEMO = {
+  correoCta: { asunto:"¿Cómo avanzó tu equipo este trimestre?", titulo:"Crecer, aprender y avanzar juntos", etiqueta:"Evaluación 3Q 2026",
+    cuerpo:"¡Hola, equipo!\n\nCada experiencia, aprendizaje y logro hacen parte del camino que construimos juntos. Por eso, queremos invitarte a realizar la **Evaluación de Desempeño 3Q-2026** de tu equipo.\n\n[CTA]\n\n> Este espacio es una oportunidad para **reconocer los avances de cada integrante, identificar oportunidades de crecimiento y acompañar el fortalecimiento de sus capacidades,** contribuyendo así a su **desarrollo** y al cumplimiento de **nuestros objetivos.**\n\nTu mirada y retroalimentación son fundamentales para brindar a cada persona un acompañamiento cercano, identificar nuevos retos y seguir construyendo equipos que crecen juntos.",
+    cta:"Hacer evaluación", cierre:"Gracias por ser parte activa de este proceso." },
+  correo: { asunto:"Tu pocillo también cuida el planeta", titulo:"Una acción simple con impacto positivo", etiqueta:"",
+    cuerpo:"¡Hola, equipo!\n\nSi disfrutas una buena bebida caliente durante el día, **te invitamos a hacerlo aún más a tu estilo:** quienes lo deseen pueden traer su propio pocillo y usarlo en el dispensador.\n\nUn pequeño hábito que suma comodidad y también aporta al cuidado de nuestro entorno.\n\nEsta iniciativa hace parte de nuestro compromiso con el cuidado del medio ambiente y busca **reducir y, progresivamente, eliminar el uso de vasos plásticos y de papel** dentro de nuestras instalaciones.\n\n¿Qué debemos tener en cuenta?\n- Con esta acción contribuimos directamente a la disminución de residuos.\n- Pequeñas acciones individuales generan un impacto positivo colectivo.\n\nCreemos firmemente que este tipo de prácticas fortalece nuestra cultura de responsabilidad y conciencia ambiental. Contamos con la disposición y el compromiso de todos para hacer de esta iniciativa un hábito permanente.",
+    cta:"", cierre:"**Gracias por sumarse** a este cambio y por aportar, desde lo cotidiano, a un entorno más sostenible para todos." },
+  carteleraCta: { titulo:"¡Ya está disponible!", subtitulo:"Evaluación de Desempeño 3Q-2026",
+    copy:"Es momento de **reconocer los avances de tu equipo.**\n- Evalúa con **objetividad.**\n- **Reconoce los logros** y destaca las fortalezas.\n- Brinda una **retroalimentación** clara y constructiva.\n- Identifica **oportunidades de crecimiento.**\nConsulta tu correo e ingresa a la evaluación." },
+  cartelera: { titulo:"¡Súmate al cambio!", subtitulo:"Usa tu pocillo personal",
+    copy:"Para disfrutar de las bebidas calientes del dispensador, ***te invitamos a usar tu propio pocillo.***\n- Contribuimos a la **disminución de residuos.**\n- Pequeñas acciones generan un **impacto positivo colectivo.**" }
+};
+function runDemo(label){
+  const f = state.brief || readForm(), cta = f.cta === "si";
+  $("#go").disabled = true;
+  showStatus(label || "Redactando la pieza…");
+  setTimeout(() => {
+    state.result = {
+      preguntas: [], notas: [],
+      correo: f.tipo !== "cartelera" ? { ...(cta ? DEMO.correoCta : DEMO.correo) } : null,
+      cartelera: f.tipo !== "correo" ? { ...(cta ? DEMO.carteleraCta : DEMO.cartelera) } : null
+    };
+    state.isExample = true;
+    $("#go").disabled = false;
+    render();
+    $("#out").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block:"start" });
+  }, 1400);
+}
+$("#keyToggle").addEventListener("click", () => {
+  const f = $("#keyField"); f.hidden = !f.hidden;
+  $("#keyToggle").textContent = f.hidden ? "Conectar clave de API" : "Ocultar clave de API";
+  if (!f.hidden) $("#codigo").focus();
+});
+
 function showStatus(msg, err){
   const out = $("#out");
   const s = `<div class="status${err?" err":""}">${err ? "" : '<span class="dots"><i></i><i></i><i></i></span>'}<span>${esc(msg)}</span></div>`;
