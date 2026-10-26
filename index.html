@@ -1,0 +1,628 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Comunicaciones Prepital</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+/* Layout: brief form on the left (sticky on desktop), generated piece on the right; stacks on phones. */
+:root{
+  --bg:#F3F6FC; --surface:#FFFFFF; --sunk:#EEF2FA; --ink:#12203A; --muted:#5A6782; --line:#DAE2F0;
+  --accent:#1458F5; --accent-ink:#FFFFFF; --accent-soft:#E6EDFF;
+  --warn:#9A4A06; --warn-soft:#FFF2E3; --ok:#12704A; --ok-soft:#E3F5EC;
+  --f-display:"Montserrat", "Segoe UI", system-ui, sans-serif;
+  --f-body:"Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0B1220; --surface:#121B2E; --sunk:#0F1728; --ink:#E5EBF7; --muted:#97A4BF; --line:#24304A;
+  --accent:#6A97FF; --accent-ink:#0A1222; --accent-soft:#1A2848;
+  --warn:#F2A867; --warn-soft:#2D2114; --ok:#56C892; --ok-soft:#12291F; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0B1220; --surface:#121B2E; --sunk:#0F1728; --ink:#E5EBF7; --muted:#97A4BF; --line:#24304A;
+  --accent:#6A97FF; --accent-ink:#0A1222; --accent-soft:#1A2848;
+  --warn:#F2A867; --warn-soft:#2D2114; --ok:#56C892; --ok-soft:#12291F; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:16px/1.5 var(--f-body);
+  padding-left:max(16px, env(safe-area-inset-left,0px));padding-right:max(16px, env(safe-area-inset-right,0px))}
+.wrap{max-width:1240px;margin:0 auto;padding-block:28px 48px;display:flex;flex-direction:column;gap:24px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0}
+button,input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+header{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;align-items:center}
+@media (min-width:900px){header{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:40px}}
+.brand{display:flex;flex-direction:column;gap:6px;min-width:0}
+.lead{margin:6px 0 0;font-size:18px;font-weight:600;line-height:1.45;max-width:46ch;color:var(--ink)}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:700}
+h1{font-size:clamp(26px,3.4vw,34px);font-weight:800;letter-spacing:-.01em}
+.sub{color:var(--muted);margin:0;display:flex;flex-direction:column;gap:10px;min-width:0;background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:12px;padding:16px 20px}
+.sub p{margin:0}
+
+details.guide{background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+details.guide summary{cursor:pointer;padding:12px 16px;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:8px}
+details.guide summary::after{content:"+";color:var(--accent);font-weight:800}
+details.guide[open] summary::after{content:"–"}
+.guide-body{padding:0 16px 16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px 28px;color:var(--muted);font-size:15px}
+.guide-body h3{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);margin-bottom:6px}
+.guide-body ul,.guide-body ol{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:3px}
+
+.grid{display:grid;grid-template-columns:minmax(0,1fr);gap:24px;align-items:start}
+@media (min-width:760px){form.panel{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px 24px}
+  form.panel > .span{grid-column:1 / -1}}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:18px;min-width:0}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.lbl{font-weight:700;font-size:14px}
+.hint{font-size:13px;color:var(--muted)}
+textarea,input[type=text]{width:100%;background:var(--sunk);border:1px solid var(--line);border-radius:8px;padding:10px 12px;resize:vertical}
+textarea{min-height:76px}
+textarea:focus,input[type=text]:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 3px var(--accent-soft)}
+.seg{display:flex;background:var(--sunk);border:1px solid var(--line);border-radius:999px;padding:3px;gap:2px}
+.seg button{flex:1;border:0;background:transparent;border-radius:999px;padding:7px 10px;font-weight:600;font-size:14px;cursor:pointer;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:420px){.row2{grid-template-columns:1fr}}
+.cta-box{border-left:3px solid var(--accent);padding-left:14px;display:flex;flex-direction:column;gap:14px}
+.check{font-size:13px;font-weight:600}
+.check.bad{color:var(--warn)} .check.good{color:var(--ok)}
+
+.btn{border:0;border-radius:999px;padding:11px 20px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn.primary{background:var(--accent);color:var(--accent-ink);font-family:var(--f-display);font-size:15px}
+.btn.primary:disabled{opacity:.55;cursor:wait}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink);padding:8px 14px;font-size:14px}
+.btn.ghost:hover{border-color:var(--accent);color:var(--accent)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+.status{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:var(--r);background:var(--accent-soft);font-weight:600}
+.status.err{background:var(--warn-soft);color:var(--warn)}
+.dots{display:inline-flex;gap:4px}
+.dots i{width:7px;height:7px;border-radius:50%;background:var(--accent);opacity:.3;animation:pulse 1.2s infinite}
+.dots i:nth-child(2){animation-delay:.2s}.dots i:nth-child(3){animation-delay:.4s}
+@keyframes pulse{50%{opacity:1}}
+@media (prefers-reduced-motion:reduce){.dots i{animation:none;opacity:.8}}
+
+.out-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.out-head h2{font-size:20px;font-weight:700}
+.tag{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:var(--warn-soft);color:var(--warn)}
+.piece{border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.piece-head{background:var(--sunk);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;gap:8px;border-bottom:1px solid var(--line)}
+.piece-head h3{font-size:14px;letter-spacing:.08em;text-transform:uppercase}
+.part{padding:14px 16px;display:grid;grid-template-columns:96px minmax(0,1fr) auto;gap:6px 14px;border-bottom:1px solid var(--line);align-items:start}
+.part:last-child{border-bottom:0}
+@media (max-width:520px){.part{grid-template-columns:minmax(0,1fr) auto}.part .k{grid-column:1 / -1}}
+.k{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding-top:3px}
+.v{min-width:0;overflow-wrap:anywhere}
+.v p{margin:0 0 10px}.v p:last-child{margin-bottom:0}
+.v ul{margin:0 0 10px;padding-left:20px}
+.v .title{font-family:var(--f-display);font-weight:800;font-size:20px;line-height:1.25}
+.v .meta{font-size:12px;color:var(--muted);margin-top:4px}
+.v .meta.bad{color:var(--warn);font-weight:600}
+.v .box{background:var(--accent-soft);border-radius:8px;padding:10px 12px;margin:0 0 10px}
+.ctapill{display:flex;justify-content:center;margin:4px 0 14px}
+.ctapill span{background:var(--accent);color:var(--accent-ink);border-radius:999px;padding:9px 22px;font-family:var(--f-display);font-weight:700;font-size:15px}
+.subjpart{grid-template-columns:96px minmax(0,1fr)}
+@media (max-width:520px){.subjpart{grid-template-columns:minmax(0,1fr)}}
+.subj{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.subj li{display:grid;grid-template-columns:minmax(0,1fr) auto auto auto;align-items:center;gap:10px;padding:6px 0;border-bottom:1px dashed var(--line)}
+.subj li:last-child{border-bottom:0}
+.subj .st{font-weight:600;min-width:0;overflow-wrap:anywhere}
+.subj .se{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:2px 8px;white-space:nowrap}
+.subj .sc{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;min-width:2ch;text-align:right}
+.subj .sc.bad{color:var(--warn);font-weight:700}
+@media (max-width:520px){.subj li{grid-template-columns:minmax(0,1fr) auto}.subj .se{grid-column:1;justify-self:start}.subj .sc{display:none}}
+.empty{border:1px dashed var(--line);border-radius:12px;padding:28px 20px;color:var(--muted);text-align:center;display:flex;flex-direction:column;gap:6px}
+.empty p{margin:0;max-width:52ch;margin-inline:auto}
+.empty strong{color:var(--ink)}
+.copy{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:4px 9px;font-size:12px;font-weight:600;cursor:pointer;color:var(--muted)}
+.copy:hover{color:var(--accent);border-color:var(--accent)}
+.copy.done{color:var(--ok);border-color:var(--ok)}
+.notes{background:var(--warn-soft);color:var(--warn);border-radius:var(--r);padding:12px 14px;font-size:15px}
+.notes ul{margin:4px 0 0;padding-left:18px}
+
+.qa{display:flex;flex-direction:column;gap:14px}
+.qa .q{font-weight:600}
+.refine{display:flex;flex-direction:column;gap:8px;border-top:1px dashed var(--line);padding-top:16px}
+
+.history{display:flex;flex-direction:column;gap:6px}
+.history h3{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.history ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
+.history button{width:100%;text-align:left;background:transparent;border:1px solid transparent;border-radius:8px;padding:7px 10px;cursor:pointer;display:flex;justify-content:space-between;gap:10px}
+.history button:hover{border-color:var(--line);background:var(--sunk)}
+.history small{color:var(--muted);white-space:nowrap}
+.history .t{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <span class="eyebrow">Gestión de Talento Humano · Prepital</span>
+      <h1>Comunicaciones Prepital</h1>
+      <p class="lead">¡Hola! Este es tu espacio para crear los correos y carteleras de Prepital con nuestra voz de siempre: cercana, cálida y clara.</p>
+    </div>
+    <div class="sub">
+        <p>Cuéntanos qué quieres comunicar, agrega los datos importantes (fechas, lugares, recomendaciones) y elige si necesitas correo, cartelera o ambos. En un momento tendrás una propuesta lista para revisar, ajustar y copiar.</p>
+        <p>Solo usamos la información que escribas aquí. Si falta algo importante, te lo preguntaremos antes de redactar, para que cada pieza diga exactamente lo que necesitas.</p>
+    </div>
+  </header>
+
+  <details class="guide" id="guide">
+    <summary>Guía de voz y estructura</summary>
+    <div class="guide-body">
+      <div><h3>Voz y tono</h3><ul>
+        <li>Cercana y cálida: «¡Hola, equipo!», <em>juntos, entre todos, nuestro</em>.</li>
+        <li>Invita, no ordena: «te invitamos», «contamos con su compromiso».</li>
+        <li>Positiva, conecta la acción con un beneficio colectivo.</li>
+        <li>Ideas clave en negrita.</li></ul></div>
+      <div><h3>Correo</h3><ol>
+        <li>Título corto y aspiracional (banner).</li>
+        <li>¡Hola, equipo! + motivo de la comunicación.</li>
+        <li>CTA en la mitad (infinitivo, máx. 3 palabras).</li>
+        <li>Desarrollo + recuadro de 2–3 puntos clave.</li>
+        <li>Cierre de agradecimiento o compromiso.</li></ol></div>
+      <div><h3>Cartelera</h3><ul>
+        <li>Título exclamativo o tipo eslogan.</li>
+        <li>Una línea de contexto.</li>
+        <li>3–4 puntos muy cortos con palabra clave en negrita.</li>
+        <li>30–60 palabras. Con CTA: invita a revisar el correo.</li></ul></div>
+    </div>
+  </details>
+
+  <div class="grid">
+    <form class="panel" id="brief" novalidate>
+      <div class="field span"><span class="lbl">Pieza</span>
+        <div class="seg" data-group="tipo" role="group" aria-label="Tipo de pieza">
+          <button type="button" data-value="correo">Correo</button>
+          <button type="button" data-value="cartelera">Cartelera</button>
+          <button type="button" data-value="ambos">Ambos</button>
+        </div></div>
+
+      <div class="field"><label class="lbl" for="tema">Tema y objetivo</label>
+        <textarea id="tema" placeholder="¿Qué se comunica y qué se espera que haga el equipo?"></textarea></div>
+
+      <div class="field"><label class="lbl" for="info">Información clave</label>
+        <span class="hint">Fechas, condiciones, lugares, recomendaciones. Lo que no esté aquí no se incluye.</span>
+        <textarea id="info" style="min-height:110px"></textarea></div>
+
+      <div class="row2">
+        <div class="field"><span class="lbl">Trato</span>
+          <div class="seg" data-group="trato" role="group" aria-label="Trato">
+            <button type="button" data-value="tu">Tú</button>
+            <button type="button" data-value="ustedes">Ustedes</button>
+          </div></div>
+        <div class="field"><label class="lbl" for="remitente">Remitente</label>
+          <input type="text" id="remitente" value="Gestión de Talento Humano"></div>
+      </div>
+
+      <div class="field"><span class="lbl">¿Lleva CTA?</span>
+        <div class="seg" data-group="cta" role="group" aria-label="Lleva CTA">
+          <button type="button" data-value="si">Sí</button>
+          <button type="button" data-value="no">No</button>
+        </div></div>
+
+      <div class="cta-box" id="ctaBox">
+        <div class="field"><label class="lbl" for="ctaIntent">Intención del CTA</label>
+          <input type="text" id="ctaIntent" placeholder="Ej.: que el líder ingrese a la plataforma y evalúe">
+          <span class="hint">El texto del botón lo propone Claude: en infinitivo y máximo 3 palabras.</span></div>
+      </div>
+
+      <div class="field"><label class="lbl" for="extra">Notas adicionales <span class="hint">(opcional)</span></label>
+        <textarea id="extra" placeholder="Público específico, énfasis, palabras a evitar…" style="min-height:60px"></textarea></div>
+
+      <div class="actions span">
+        <button class="btn primary" type="submit" id="go">Generar pieza</button>
+        <button class="btn ghost" type="button" id="stop" hidden>Detener</button>
+      </div>
+      <div class="history span" id="history" hidden><h3>Recientes</h3><ul id="histList"></ul></div>
+    </form>
+
+    <section class="panel" id="out" aria-live="polite"></section>
+  </div>
+</div>
+
+<script>
+const GUIA = `Actúas como copywriter senior especializado en email marketing, comunicación de marca y piezas corporativas internas para PREPITAL (UT Prepacol - 3T Capital). Las piezas las firma el área indicada (normalmente Gestión de Talento Humano).
+
+VOZ Y TONO (derivados de las piezas de referencia, no inventes otros lineamientos):
+- Cercana, cálida y positiva. Saludo fijo: "¡Hola, equipo!".
+- Inclusiva y colectiva: "juntos", "entre todos", "nuestro entorno", "estos espacios que compartimos".
+- Invita, no ordena: "te invitamos", "queremos invitarles", "contamos con su compromiso". Las normas se presentan como recomendaciones.
+- Conecta cada acción con un propósito o beneficio colectivo (bienestar, desarrollo, sostenibilidad, cultura).
+- Ideas clave en **negrita**. Frases claras, sin tecnicismos ni tono excesivamente institucional.
+
+ESTRUCTURA DE LOS CORREOS:
+1. Título corto y aspiracional (va en el banner). Puede llevar una etiqueta breve (ej. "Evaluación 3Q 2026").
+2. "¡Hola, equipo!"
+3. Primer párrafo: contexto y motivo de la comunicación, con la idea clave en negrita. Debe conectar directamente con el asunto y el título.
+4. CTA en la mitad del correo (si aplica). Si no hay CTA, un bloque destacado con el mensaje central.
+5. Desarrollo: párrafo de propósito/beneficio.
+6. Recuadro de puntos clave con encabezado ("¿Qué debemos tener en cuenta?", "Tengan en cuenta estas recomendaciones:") y 2-3 viñetas cortas.
+7. Párrafo de compromiso.
+8. Cierre destacado de agradecimiento o compromiso ("Gracias por…", "Contamos con…").
+
+ESTRUCTURA DE LAS CARTELERAS:
+- Título llamativo, exclamativo o tipo eslogan.
+- Subtítulo o línea de contexto (una frase).
+- 3-4 puntos muy cortos con la palabra clave en negrita.
+- Frase de cierre opcional. Extensión total de 30 a 60 palabras.
+- Si la comunicación tiene CTA, incluir una invitación a consultar el correo electrónico.
+
+PIEZAS DE REFERENCIA (fuente principal de estilo):
+
+[Correo 1 · con CTA]
+Título: Crecer, aprender y avanzar juntos — Etiqueta: Evaluación 3Q 2026
+¡Hola, equipo!
+Cada experiencia, aprendizaje y logro hacen parte del camino que construimos juntos. Por eso, queremos invitarte a realizar la **Evaluación de Desempeño 3Q - 2026** de tu equipo.
+[CTA: Hacer evaluación]
+(Recuadro) Este espacio es una oportunidad para **reconocer los avances de cada integrante, identificar oportunidades de crecimiento y acompañar el fortalecimiento de sus capacidades,** contribuyendo así a su **desarrollo** y al cumplimiento de **nuestros objetivos.**
+Tu mirada y retroalimentación son fundamentales para brindar a cada persona un acompañamiento cercano, identificar nuevos retos y seguir construyendo equipos que crecen juntos.
+Cierre: Gracias por ser parte activa de este proceso.
+
+[Correo 2 · sin CTA]
+Título: Un espacio limpio habla de nosotros
+¡Hola, equipo!
+(Bloque destacado) Queremos invitarles a seguir construyendo entre todos un ambiente de trabajo ordenado, limpio y alineado con nuestros estándares.
+Mantener nuestros puestos en óptimas condiciones no solo aporta a la organización, sino también al bienestar de todos en el día a día.
+Tengan en cuenta estas recomendaciones:
+- Mantengan el puesto en **perfecto orden y aseo.**
+- Eviten elementos ajenos a la operación, como **fotografías, tarjetas, plantas, accesorios,** entre otros.
+- Los puestos deben permanecer **limpios y sin objetos** de manera permanente.
+Cierre: Contamos con su compromiso para seguir cuidando estos espacios que compartimos.
+
+[Correo 3 · sin CTA]
+Título: Una acción simple con impacto positivo
+¡Hola, equipo!
+Si disfrutas una buena bebida caliente durante el día, **te invitamos a hacerlo aún más a tu estilo:** quienes lo deseen pueden traer su propio pocillo y usarlo en el dispensador.
+Un pequeño hábito que suma comodidad y también aporta al cuidado de nuestro entorno.
+Esta iniciativa hace parte de nuestro compromiso con el cuidado del medio ambiente y busca **reducir y, progresivamente, eliminar el uso de vasos plásticos y de papel** dentro de nuestras instalaciones.
+¿Qué debemos tener en cuenta?
+- Con esta acción contribuimos directamente a la disminución de residuos.
+- Pequeñas acciones individuales generan un impacto positivo colectivo.
+Creemos firmemente que este tipo de prácticas fortalece nuestra cultura de responsabilidad y conciencia ambiental. Contamos con la disposición y compromiso de todos para hacer de esta iniciativa un hábito permanente.
+Cierre: **Gracias por sumarse** a este cambio y por aportar, desde lo cotidiano, a un entorno más sostenible para todos.
+
+[Cartelera 1] ¡Ya está disponible! / Evaluación de Desempeño 3Q-2026 / Es momento de **reconocer los avances de tu equipo, identificar oportunidades de crecimiento** y **brindar una retroalimentación que impulse su desarrollo.** / Puntos: Evalúa con **objetividad.** · **Reconoce los logros** y destaca las fortalezas. · Brinda una **retroalimentación** clara y constructiva. · Identifica **oportunidades de crecimiento** y nuevos retos.
+[Cartelera 2] ¡Un espacio limpio habla de nosotros! / Entre todos construimos un mejor ambiente de trabajo. / Recuerda: • Mantener tu puesto en **perfecto orden y aseo.** • Evitar elementos ajenos a la operación (fotografías, tarjetas, plantas, accesorios, etc.). • Mantener el espacio **limpio y libre de objetos.** / Un espacio organizado nos ayuda a trabajar mejor cada día.
+[Cartelera 3] ¡Súmate al cambio! / **Usa tu pocillo personal** / Para disfrutar de las bebidas calientes del dispensador, ***te invitamos a usar tu propio pocillo.***
+
+REGLAS OBLIGATORIAS:
+- No inventes información, beneficios, condiciones, fechas, lugares, cifras ni datos que no estén en la solicitud.
+- Si falta un dato imprescindible (la pieza quedaría incompleta o tendrías que inventarlo), NO redactes: devuelve las preguntas. Si el dato faltante es opcional, omítelo y redacta.
+- ASUNTO: entrega UN solo asunto, el mejor. Para elegirlo, evalúa internamente enfoques como curiosidad, beneficio, urgencia, exclusividad, recordación y conversación cercana, y quédate con el que mejor funcione para este mensaje y este público (no muestres las alternativas). Debe generar interés y aumentar la apertura, con claridad, impacto y naturalidad, en la voz cálida e invitacional de la marca. Extensión óptima para móvil: entre 25 y 45 caracteres, con la idea clave en las primeras palabras. Evita asuntos genéricos ("Información importante", "Comunicado"), clickbait y señales de spam: nada en mayúsculas sostenidas, sin signos repetidos (!!), sin emojis, sin palabras como "gratis" o "urgente". La urgencia solo si la solicitud trae una fecha o plazo real; la exclusividad solo si aplica a un grupo real (líderes, un área). No prometas nada que no esté en la solicitud. Cada asunto debe conectar con el título y el primer párrafo del correo. Cumple el manual de estilo (signos de apertura ¿ ¡, mayúscula solo inicial y nombres propios, sin punto final).
+- El CTA va en la mitad del cuerpo, en infinitivo y con máximo 3 palabras. Tú propones el texto del CTA a partir de la intención indicada: debe describir con precisión la acción que la persona realizará al hacer clic. Cuenta las palabras antes de responder: artículos, preposiciones y posesivos también cuentan ("Inscribir a mis hijos" son 4 palabras y NO cumple; "Inscribir hijos" o "Hacer inscripción" sí).
+- Respeta el trato indicado (tú / ustedes) en toda la pieza.
+- Mensaje claro, atractivo y fácil de leer. Evita textos genéricos o innecesariamente largos.
+- Antes de responder, revisa cada pieza contra el MANUAL DE CORRECCIÓN DE ESTILO y corrige cualquier incumplimiento. Las piezas de referencia mandan en voz y estructura; el manual manda en ortografía, puntuación y redacción.
+
+MANUAL DE CORRECCIÓN DE ESTILO (Área de copy) — reglas aplicables:
+
+Números
+- Con letras los números que se escriben en una sola palabra (cinco, cincuenta, trescientos). Con cifras los que exigen cuatro o más palabras (32 423) y los decimales (1,5).
+- No mezclar cifras y letras: nunca "cuatro (4)".
+- Millones y superiores pueden ir con cifra + palabra si las tres últimas cifras son ceros (327 millones de pesos). Nunca "154 mil" ni "12 mil millones": escribe 154 000.
+- Separador de miles: espacio (1 530 111). Decimal: coma o punto. Años, páginas, códigos postales, leyes y decretos sin separador (2026, Ley 100).
+- Porcentaje pegado al número (84%). Mayores de diez en cifras; menores de diez en cifra o letra, sin combinar (3% o tres por ciento, nunca "tres %").
+- Unidades de medida separadas de la cifra, sin punto y en minúscula (40 km, 200 kg); cifra y símbolo nunca en líneas distintas.
+- Moneda: sin cantidad, en letras y minúscula (el dólar). No mezclar símbolo con palabras: "$7 000 000" o "7 millones de pesos", nunca "$7 millones"; "250 USD" mejor que "$250 estadounidenses".
+- Horas: 8:30 h o 8.30 h, sin espacios alrededor de los dos puntos. Fechas en texto: "lunes, 23 de enero de 2026" (coma entre día de la semana y día del mes). Rangos con guion: 23-45, 2025-2026.
+
+Puntuación
+- Signos de apertura obligatorios: ¿? y ¡!. Se abren donde empieza la pregunta o exclamación ("Si te animas, ¡te esperamos!"). Nunca punto después de ? o !.
+- Vocativos entre comas: "¡Hola, equipo!".
+- Punto siempre después de comillas, paréntesis y rayas de cierre. Sin punto final en títulos y subtítulos aislados en su renglón, ni en firmas o nombres solos.
+- Puntos suspensivos: solo tres, pegados a la palabra anterior; no combinar con "etc.". Nunca punto adicional tras ellos.
+- Coma: separa elementos de una enumeración; no va antes de y/e/o/u/ni que cierra una serie. Va delante de pero, aunque, sino, así que; detrás de conectores (además, sin embargo, por eso, es decir, por último, en cuanto a…); después de complementos o subordinadas antepuestas que no sean muy cortas ("Si vas a llegar tarde, avísanos"). Nunca coma entre sujeto y verbo.
+- Incisos entre comas, rayas (—) o paréntesis; la raya no se confunde con el guion.
+- Punto y coma para separar elementos complejos que ya llevan comas, y delante de sin embargo, por tanto, aunque cuando las oraciones son largas.
+- Dos puntos antes de enumeraciones explicativas; la palabra siguiente va en minúscula salvo citas, saludos de carta o nombres propios.
+- Listas en líneas independientes: si los ítems inician con minúscula, cierran con punto y coma y el último con punto; si inician con mayúscula, cada ítem cierra con punto. Mantén coherencia entre todos los ítems.
+- Comillas: preferir angulares « »; luego “ ” y luego ‘ ’ para citas anidadas.
+
+Mayúsculas y títulos
+- Títulos de piezas, artículos y secciones: solo mayúscula inicial y nombres propios ("Un espacio limpio habla de nosotros").
+- Nombres de cursos, programas o procesos con nombre propio: mayúscula en las palabras con valor ("Evaluación de Desempeño"); si el nombre es muy extenso, solo la inicial.
+- Efemérides y fechas especiales con mayúscula (Navidad, Año Nuevo, Día del Maestro). Meses y días en minúscula.
+- Cargos, profesiones y disciplinas en minúscula (la gerente, el coordinador de talento humano), salvo que formen parte de un nombre propio (Departamento de Medicina Interna).
+- Calles y espacios: genérico en minúscula (la calle Mayor, la plaza de Armas).
+- Los títulos expresivos usan signos de exclamación. Los títulos deben ser sencillos, atractivos, breves, completos y escritos desde la perspectiva del lector.
+
+Abreviaturas, siglas y extranjerismos
+- Abreviaturas con punto y tilde cuando aplique (pág., C.ía); con número, espacio (20 págs.); nunca separadas a final de línea ni solas en un renglón.
+- Siglas: escribir primero el nombre completo y luego la sigla entre paréntesis, salvo las muy conocidas. Sin puntos ni espacios; plural invariable (las ONG, nunca ONGs ni ONG's).
+- Extranjerismos en cursiva (*marketing*, *feedback*); prefiere el equivalente en español cuando exista.
+
+Ortografía
+- Revisa b/v, c/s/z, g/j, h, tildes (incluidas mayúsculas) y diéresis (vergüenza, lingüística). Los prefijos se unen a la palabra (antiestrés), con guion solo ante sigla o mayúscula (anti-OTAN).
+
+Redacción de párrafos
+- Estructura básica sujeto + verbo + complemento; una idea clave por párrafo, con hilo conductor entre párrafos.
+- Para contenidos digitales, párrafos de máximo cinco líneas; prefiere listas para facilitar la lectura.
+- Evita frases demasiado cortadas o con exceso de pausas, tecnicismos y palabras rebuscadas. Brevedad, sencillez, precisión y coherencia.`;
+
+const FORMATO = `FORMATO DE RESPUESTA: responde SOLO con un objeto JSON con esta forma exacta:
+{
+  "preguntas": [string],            // vacío si puedes redactar sin inventar
+  "correo": null | {
+    "asunto": string,              // uno solo, el mejor; sin explicaciones
+    "titulo": string,
+    "etiqueta": string,             // "" si no aplica
+    "cuerpo": string,               // empieza con "¡Hola, equipo!". Párrafos separados por línea en blanco. Viñetas con "- ". Negritas con **así**. Bloque destacado o recuadro: línea que empieza con "> ". Si hay CTA, una línea que diga exactamente [CTA] en el punto medio. NO incluyas el cierre aquí.
+    "cta": string,                  // "" si no lleva CTA
+    "cierre": string
+  },
+  "cartelera": null | {
+    "titulo": string,
+    "subtitulo": string,
+    "copy": string                  // líneas cortas; viñetas con "- "; negritas con **así**
+  },
+  "notas": [string]                 // decisiones u observaciones breves para quien revisa; vacío si no hay
+}
+Si devuelves preguntas imprescindibles, "correo" y "cartelera" van en null. Genera solo las piezas solicitadas; la otra va en null.`;
+
+const EXAMPLE = {
+  preguntas: [],
+  correo: {
+    asunto: "¿Cómo avanzó tu equipo este trimestre?",
+    titulo: "Crecer, aprender y avanzar juntos",
+    etiqueta: "Evaluación 3Q 2026",
+    cuerpo: "¡Hola, equipo!\n\nCada experiencia, aprendizaje y logro hacen parte del camino que construimos juntos. Por eso, queremos invitarte a realizar la **Evaluación de Desempeño 3Q - 2026** de tu equipo.\n\n[CTA]\n\n> Este espacio es una oportunidad para **reconocer los avances de cada integrante, identificar oportunidades de crecimiento y acompañar el fortalecimiento de sus capacidades,** contribuyendo así a su **desarrollo** y al cumplimiento de **nuestros objetivos.**\n\nTu mirada y retroalimentación son fundamentales para brindar a cada persona un acompañamiento cercano, identificar nuevos retos y seguir construyendo equipos que crecen juntos.",
+    cta: "Hacer evaluación",
+    cierre: "Gracias por ser parte activa de este proceso."
+  },
+  cartelera: {
+    titulo: "¡Ya está disponible!",
+    subtitulo: "Evaluación de Desempeño 3Q-2026",
+    copy: "Es momento de **reconocer los avances de tu equipo.**\n- Evalúa con **objetividad.**\n- **Reconoce los logros** y destaca las fortalezas.\n- Brinda una **retroalimentación** clara y constructiva.\n- Identifica **oportunidades de crecimiento.**\nConsulta tu correo e ingresa a la evaluación."
+  },
+  notas: []
+};
+const EXAMPLE_FORM = {
+  tipo:"ambos", trato:"tu", cta:"si",
+  tema:"Invitar a los líderes a realizar la Evaluación de Desempeño 3Q-2026 de su equipo.",
+  info:"La evaluación ya está disponible.\nPropósito: reconocer los avances de cada integrante, identificar oportunidades de crecimiento y brindar retroalimentación que impulse su desarrollo.",
+  remitente:"Gestión de Talento Humano",
+  ctaIntent:"Que el líder ingrese y realice la evaluación de su equipo",
+  extra:""
+};
+
+const $ = s => document.querySelector(s);
+const state = { tipo:"ambos", trato:"tu", cta:"si", result:null, isExample:false, brief:null, qa:[] };
+const EMPTY_FORM = { tipo:"ambos", trato:"tu", cta:"si", tema:"", info:"", remitente:"Gestión de Talento Humano", ctaIntent:"", extra:"" };
+let ctl = null;
+const samplePromise = (window.claude && window.claude.use) ? window.claude.use("sample").catch(()=>null) : Promise.resolve(null);
+
+/* ---------- storage (per-viewer convenience) ---------- */
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; }catch{ return d; } },
+  set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch{} }
+};
+
+/* ---------- segmented controls ---------- */
+function setSeg(group, value){
+  state[group] = value;
+  document.querySelectorAll(`.seg[data-group="${group}"] button`).forEach(b => b.setAttribute("aria-pressed", String(b.dataset.value === value)));
+  if (group === "cta") $("#ctaBox").hidden = value !== "si";
+}
+document.querySelectorAll(".seg").forEach(seg => seg.addEventListener("click", e => {
+  const b = e.target.closest("button"); if (b) { setSeg(seg.dataset.group, b.dataset.value); saveDraft(); }
+}));
+
+/* ---------- CTA rule check ---------- */
+function ctaIssues(t){
+  t = (t||"").trim(); if (!t) return [];
+  const words = t.split(/\s+/); const issues = [];
+  if (words.length > 3) issues.push(`tiene ${words.length} palabras (máx. 3)`);
+  if (!/(ar|er|ir|ír)(se|lo|la|los|las|te|me|nos)?$/i.test(words[0].replace(/[^\p{L}]/gu,""))) issues.push("no empieza con un verbo en infinitivo");
+  return issues;
+}
+
+/* ---------- form <-> draft ---------- */
+const FIELDS = ["tema","info","remitente","ctaIntent","extra"];
+function readForm(){ const f = { tipo:state.tipo, trato:state.trato, cta:state.cta }; FIELDS.forEach(k => f[k] = $("#"+k).value.trim()); return f; }
+function fillForm(f){ setSeg("tipo", f.tipo||"ambos"); setSeg("trato", f.trato||"tu"); setSeg("cta", f.cta||"si"); FIELDS.forEach(k => $("#"+k).value = f[k] ?? ""); }
+function saveDraft(){ store.set("copy-borrador", readForm()); }
+FIELDS.forEach(k => $("#"+k).addEventListener("input", saveDraft));
+
+function briefText(f){
+  const tipo = {correo:"Solo correo", cartelera:"Solo cartelera", ambos:"Correo y cartelera"}[f.tipo];
+  let s = `SOLICITUD
+- Pieza(s): ${tipo}
+- Tema y objetivo: ${f.tema || "(no indicado)"}
+- Información clave proporcionada:
+${f.info || "(ninguna)"}
+- Trato: ${f.trato === "tu" ? "tú (segunda persona singular)" : "ustedes (segunda persona plural)"}
+- Remitente: ${f.remitente || "Gestión de Talento Humano"}
+- ¿Lleva CTA?: ${f.cta === "si" ? "Sí" : "No"}`;
+  if (f.cta === "si") s += `
+- Intención del CTA: ${f.ctaIntent || "(no indicada)"}
+- Texto del CTA: propónlo tú a partir de la intención (infinitivo, máximo 3 palabras)`;
+  if (f.extra) s += `\n- Notas adicionales: ${f.extra}`;
+  return s;
+}
+function qaText(){ return state.qa.length ? "\n\nRESPUESTAS A TUS PREGUNTAS:\n" + state.qa.map(x => `- ${x.q}\n  → ${x.a || "(sin respuesta: omite ese dato, no lo inventes)"}`).join("\n") : ""; }
+
+/* ---------- generation ---------- */
+const ERR = {
+  not_granted:"No se autorizó el uso de Claude en esta página. Puedes activarlo desde los permisos del artefacto.",
+  sampling_disabled:"Claude no está disponible para esta cuenta.",
+  rate_limited:"Alcanzaste el límite de solicitudes por ahora. Intenta de nuevo en unos minutos.",
+  session_expired:"Tu sesión expiró. Vuelve a iniciar sesión e inténtalo de nuevo.",
+  refused:"Claude no pudo redactar esta solicitud. Ajusta el tema o la información e inténtalo de nuevo.",
+  invalid_json:"La respuesta llegó con un formato inesperado. Vuelve a generar.",
+  empty_completion:"No llegó ninguna respuesta. Simplifica la solicitud e inténtalo de nuevo.",
+  prompt_too_large:"La información es demasiado extensa. Resume la información clave."
+};
+async function run(prompt, label){
+  const sample = await samplePromise;
+  if (!sample){ showStatus("La generación con Claude solo funciona al abrir esta página en claude.ai.", true); return; }
+  ctl = new AbortController();
+  $("#go").disabled = true; $("#stop").hidden = false;
+  showStatus(label || "Analizando la solicitud…");
+  try{
+    const r = await sample.json(prompt, { signal: ctl.signal, cache:false, onText: () => showStatus("Redactando la pieza…") });
+    if (!r || typeof r !== "object") throw { code:"invalid_json" };
+    r.preguntas = Array.isArray(r.preguntas) ? r.preguntas.filter(Boolean) : [];
+    r.notas = Array.isArray(r.notas) ? r.notas.filter(Boolean) : (r.notas ? [String(r.notas)] : []);
+    state.result = r; state.isExample = false;
+    if (r.correo || r.cartelera) pushHistory(r);
+    render();
+    $("#out").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block:"start" });
+  }catch(e){
+    if (e && e.code === "cancelled"){ render(); return; }
+    showStatus(ERR[e && e.code] || "Hubo un problema de conexión. Vuelve a intentarlo.", true);
+  }finally{
+    $("#go").disabled = false; $("#stop").hidden = true; ctl = null;
+  }
+}
+$("#stop").addEventListener("click", () => ctl && ctl.abort());
+
+$("#brief").addEventListener("submit", e => {
+  e.preventDefault();
+  const f = readForm();
+  if (!f.tema){ $("#tema").focus(); showStatus("Escribe el tema y objetivo de la comunicación.", true); return; }
+  if (f.cta === "si" && !f.ctaIntent){ $("#ctaIntent").focus(); showStatus("Cuéntame la intención del CTA: qué debe hacer la persona al hacer clic.", true); return; }
+  state.brief = f; state.qa = [];
+  run(`${GUIA}\n\n${FORMATO}\n\n${briefText(f)}`);
+});
+
+function answerQuestions(){
+  const qs = state.result.preguntas;
+  qs.forEach((q,i) => { const a = ($("#qa"+i)||{}).value || ""; state.qa.push({ q, a:a.trim() }); });
+  run(`${GUIA}\n\n${FORMATO}\n\n${briefText(state.brief || readForm())}${qaText()}\n\nCon estas respuestas, redacta las piezas. Pregunta de nuevo solo si sigue faltando algo imprescindible.`, "Redactando con tus respuestas…");
+}
+function refine(){
+  const ask = $("#refineTxt").value.trim(); if (!ask){ $("#refineTxt").focus(); return; }
+  const cur = { ...state.result }; delete cur.preguntas;
+  run(`${GUIA}\n\n${FORMATO}\n\n${briefText(state.brief || readForm())}${qaText()}\n\nVERSIÓN ACTUAL:\n${JSON.stringify(cur)}\n\nAJUSTE SOLICITADO: ${ask}\n\nAplica solo el ajuste pedido, conserva lo demás y respeta todas las reglas. Devuelve las piezas completas en el mismo formato.`, "Aplicando el ajuste…");
+}
+
+/* ---------- rendering ---------- */
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;" }[c]));
+const inline = s => esc(s).replace(/\*\*\*(.+?)\*\*\*/g,"<strong><em>$1</em></strong>").replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>").replace(/(^|[^*])\*([^*\n]+?)\*/g,"$1<em>$2</em>");
+function rich(text, cta){
+  const blocks = String(text||"").split(/\n\s*\n/); let html = "";
+  for (const b of blocks){
+    const lines = b.split("\n").map(l => l.trimEnd()).filter(l => l.trim());
+    if (!lines.length) continue;
+    if (lines.length === 1 && /^\[CTA\]$/i.test(lines[0].trim())){ html += `<div class="ctapill"><span>${esc(cta || "CTA")}</span></div>`; continue; }
+    if (lines.every(l => /^>\s?/.test(l))){ html += `<div class="box">${rich(lines.map(l => l.replace(/^>\s?/,"")).join("\n"))}</div>`; continue; }
+    let para = [], list = [];
+    const flushP = () => { if (para.length){ html += `<p>${para.map(inline).join("<br>")}</p>`; para = []; } };
+    const flushL = () => { if (list.length){ html += `<ul>${list.map(l => `<li>${inline(l)}</li>`).join("")}</ul>`; list = []; } };
+    for (const l of lines){
+      if (/^\s*[-•]\s+/.test(l)){ flushP(); list.push(l.replace(/^\s*[-•]\s+/,"")); }
+      else if (/^\[CTA\]$/i.test(l.trim())){ flushP(); flushL(); html += `<div class="ctapill"><span>${esc(cta || "CTA")}</span></div>`; }
+      else { flushL(); para.push(l); }
+    }
+    flushP(); flushL();
+  }
+  return html;
+}
+const words = s => String(s||"").replace(/\*/g,"").split(/\s+/).filter(Boolean).length;
+
+function part(key, label, valueHtml, copyText){
+  return `<div class="part"><span class="k">${label}</span><div class="v">${valueHtml}</div><button type="button" class="copy" data-copy="${key}">Copiar</button></div>`;
+}
+let copyMap = {};
+function render(){
+  const r = state.result, out = $("#out"); copyMap = {};
+  if (!r){
+    out.innerHTML = `<div class="out-head"><h2>Pieza generada</h2></div><div class="empty"><p><strong>Aún no hay ninguna pieza.</strong></p><p>Completa el formulario y presiona «Generar pieza». Aquí aparecerán el asunto, el título, el cuerpo y el cierre del correo, o el título y el copy de la cartelera.</p></div>`;
+    return;
+  }
+  let h = `<div class="out-head"><h2>${state.isExample ? "Así se ve una pieza" : "Pieza generada"}</h2><div class="actions">${state.isExample ? '<span class="tag">Ejemplo</span>' : ""}${(r.correo||r.cartelera) ? '<button type="button" class="btn ghost" id="copyAll">Copiar todo</button>' : ""}</div></div>`;
+
+  if (r.preguntas.length && !r.correo && !r.cartelera){
+    h += `<div class="qa"><p style="margin:0">Antes de redactar, necesito confirmar esto para no inventar información:</p>`;
+    r.preguntas.forEach((q,i) => { h += `<div class="field"><label class="q" for="qa${i}">${esc(q)}</label><textarea id="qa${i}" style="min-height:56px" placeholder="Si lo dejas vacío, ese dato se omite."></textarea></div>`; });
+    h += `<div class="actions"><button type="button" class="btn primary" id="answerBtn">Responder y redactar</button></div></div>`;
+    out.innerHTML = h; $("#answerBtn").onclick = answerQuestions; return;
+  }
+
+  if (r.correo){
+    const c = r.correo;
+    const subs = Array.isArray(c.asuntos) ? c.asuntos.filter(x => x && x.texto) : (c.asunto ? [{ enfoque:"", texto:c.asunto }] : []);
+    subs.forEach((x,i) => copyMap["asunto"+i] = x.texto);
+    const subHtml = `<ul class="subj">${subs.map((x,i) => `<li><span class="st">${inline(x.texto)}</span>${x.enfoque ? `<span class="se">${esc(x.enfoque)}</span>` : ""}<span class="sc${x.texto.length>45?" bad":""}">${x.texto.length}</span><button type="button" class="copy" data-copy="asunto${i}">Copiar</button></li>`).join("")}</ul>`;
+    copyMap.titulo = c.titulo + (c.etiqueta ? `\n${c.etiqueta}` : "");
+    copyMap.cuerpo = (c.cuerpo||"").replace(/^\s*\[CTA\]\s*$/gim, c.cta ? `[Botón: ${c.cta}]` : "");
+    copyMap.cta = c.cta || ""; copyMap.cierre = c.cierre || "";
+    h += `<article class="piece"><div class="piece-head"><h3>Correo</h3></div>
+      <div class="part subjpart"><span class="k">Asunto</span><div class="v">${subHtml}</div></div>
+      ${part("titulo","Título",`<div class="title">${inline(c.titulo)}</div>${c.etiqueta?`<div class="meta">Etiqueta: ${esc(c.etiqueta)}</div>`:""}`)}
+      ${part("cuerpo","Cuerpo",rich(c.cuerpo, c.cta))}
+      ${part("cierre","Cierre",`<p><strong>${inline(c.cierre)}</strong></p>`)}
+    </article>`;
+  }
+  if (r.cartelera){
+    const k = r.cartelera, n = words([k.titulo,k.subtitulo,k.copy].join(" "));
+    copyMap.ctitulo = k.titulo + (k.subtitulo ? `\n${k.subtitulo}` : ""); copyMap.ccopy = k.copy || "";
+    h += `<article class="piece"><div class="piece-head"><h3>Cartelera</h3><span class="meta" style="font-size:12px;color:var(--muted)">${n} palabras</span></div>
+      ${part("ctitulo","Título",`<div class="title">${inline(k.titulo)}</div>${k.subtitulo?`<div style="font-weight:600;margin-top:4px">${inline(k.subtitulo)}</div>`:""}`)}
+      ${part("ccopy","Copy",rich(k.copy))}
+    </article>`;
+  }
+  const notes = [...(r.notas||[]), ...(r.preguntas.length ? r.preguntas.map(q => "Por confirmar: " + q) : [])];
+  if (notes.length) h += `<div class="notes"><strong>Para revisar</strong><ul>${notes.map(n => `<li>${esc(n)}</li>`).join("")}</ul></div>`;
+  h += `<p class="hint" style="margin:0">Las negritas se copian entre **asteriscos** para que el diseñador las identifique.</p>`;
+  h += `<div class="refine"><label class="lbl" for="refineTxt">Pedir un ajuste</label>
+    <textarea id="refineTxt" style="min-height:56px" placeholder="Ej.: acorta el primer párrafo, usa un título más corto, cambia el trato a ustedes…"></textarea>
+    <div class="actions"><button type="button" class="btn primary" id="refineBtn">Aplicar ajuste</button></div></div>`;
+  out.innerHTML = h;
+  $("#refineBtn").onclick = refine;
+  const all = $("#copyAll"); if (all) all.onclick = () => copy(allText(), all);
+  out.querySelectorAll("[data-copy]").forEach(b => b.onclick = () => copy(copyMap[b.dataset.copy] || "", b));
+}
+function allText(){
+  const r = state.result, p = [];
+  if (r.correo){ const c = r.correo;
+    const subs = Array.isArray(c.asuntos) ? c.asuntos.map(x => x.texto) : [c.asunto];
+    p.push("CORREO", `Asunto:\n${subs.filter(Boolean).join("\n")}`, `Título:\n${c.titulo}${c.etiqueta?"\n"+c.etiqueta:""}`, `Cuerpo:\n${copyMap.cuerpo}`);
+    if (c.cta) p.push(`CTA:\n${c.cta}`); p.push(`Cierre:\n${c.cierre}`); }
+  if (r.cartelera){ const k = r.cartelera; p.push((r.correo?"\n":"") + "CARTELERA", `Título:\n${k.titulo}${k.subtitulo?"\n"+k.subtitulo:""}`, `Copy:\n${k.copy}`); }
+  return p.join("\n\n");
+}
+async function copy(text, btn){
+  try{ await navigator.clipboard.writeText(text); }
+  catch{ const ta = document.createElement("textarea"); ta.value = text; document.body.appendChild(ta); ta.select(); try{ document.execCommand("copy"); }catch{} ta.remove(); }
+  const t = btn.textContent; btn.textContent = "Copiado"; btn.classList.add("done");
+  setTimeout(() => { btn.textContent = t; btn.classList.remove("done"); }, 1400);
+}
+function showStatus(msg, err){
+  const out = $("#out");
+  const s = `<div class="status${err?" err":""}">${err ? "" : '<span class="dots"><i></i><i></i><i></i></span>'}<span>${esc(msg)}</span></div>`;
+  if (err){ render(); out.insertAdjacentHTML("afterbegin", s); }
+  else out.innerHTML = s;
+}
+
+/* ---------- history ---------- */
+function pushHistory(r){
+  const h = store.get("copy-historial", []);
+  const name = (r.correo && r.correo.titulo) || (r.cartelera && r.cartelera.titulo) || "Pieza";
+  h.unshift({ name, at: Date.now(), result: r, form: state.brief });
+  store.set("copy-historial", h.slice(0, 8)); renderHistory();
+}
+function renderHistory(){
+  const h = store.get("copy-historial", []);
+  $("#history").hidden = !h.length;
+  $("#histList").innerHTML = h.map((x,i) => `<li><button type="button" data-h="${i}"><span class="t">${esc(x.name)}</span><small>${new Date(x.at).toLocaleDateString("es-CO",{day:"numeric",month:"short"})}</small></button></li>`).join("");
+  $("#histList").querySelectorAll("[data-h]").forEach(b => b.onclick = () => {
+    const x = h[+b.dataset.h]; state.result = x.result; state.isExample = false; state.brief = x.form; state.qa = [];
+    if (x.form) fillForm(x.form); render(); $("#out").scrollIntoView({ block:"start" });
+  });
+}
+
+/* ---------- init ---------- */
+fillForm(store.get("copy-borrador", null) || EMPTY_FORM);
+render(); renderHistory();
+</script>
+
+</body>
+</html>
