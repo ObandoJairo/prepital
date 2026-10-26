@@ -4,12 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
-</head>
-<body>
 <title>Comunicaciones Prepital</title>
-<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+</head>
+<body>
 <style>
 /* Layout: brief form on the left (sticky on desktop), generated piece on the right; stacks on phones. */
 :root{
@@ -62,9 +61,9 @@ details.guide[open] summary::after{content:"–"}
 .field{display:flex;flex-direction:column;gap:6px;min-width:0}
 .lbl{font-weight:700;font-size:14px}
 .hint{font-size:13px;color:var(--muted)}
-textarea,input[type=text]{width:100%;background:var(--sunk);border:1px solid var(--line);border-radius:8px;padding:10px 12px;resize:vertical}
+textarea,input[type=text],input[type=password]{width:100%;background:var(--sunk);border:1px solid var(--line);border-radius:8px;padding:10px 12px;resize:vertical}
 textarea{min-height:76px}
-textarea:focus,input[type=text]:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 3px var(--accent-soft)}
+textarea:focus,input[type=text]:focus,input[type=password]:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 3px var(--accent-soft)}
 .seg{display:flex;background:var(--sunk);border:1px solid var(--line);border-radius:999px;padding:3px;gap:2px}
 .seg button{flex:1;border:0;background:transparent;border-radius:999px;padding:7px 10px;font-weight:600;font-size:14px;cursor:pointer;color:var(--muted)}
 .seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
@@ -216,6 +215,10 @@ textarea:focus,input[type=text]:focus{border-color:var(--accent);outline:none;bo
       <div class="field"><label class="lbl" for="extra">Notas adicionales <span class="hint">(opcional)</span></label>
         <textarea id="extra" placeholder="Público específico, énfasis, palabras a evitar…" style="min-height:60px"></textarea></div>
 
+      <div class="field span"><label class="lbl" for="codigo">Código de acceso del equipo</label>
+        <input type="password" id="codigo" autocomplete="off" placeholder="Te lo entrega quien administra la herramienta">
+        <span class="hint">Se guarda solo en este navegador.</span></div>
+
       <div class="actions span">
         <button class="btn primary" type="submit" id="go">Generar pieza</button>
         <button class="btn ghost" type="button" id="stop" hidden>Detener</button>
@@ -228,175 +231,13 @@ textarea:focus,input[type=text]:focus{border-color:var(--accent);outline:none;bo
 </div>
 
 <script>
-const GUIA = `Actúas como copywriter senior especializado en email marketing, comunicación de marca y piezas corporativas internas para PREPITAL (UT Prepacol - 3T Capital). Las piezas las firma el área indicada (normalmente Gestión de Talento Humano).
-
-VOZ Y TONO (derivados de las piezas de referencia, no inventes otros lineamientos):
-- Cercana, cálida y positiva. Saludo fijo: "¡Hola, equipo!".
-- Inclusiva y colectiva: "juntos", "entre todos", "nuestro entorno", "estos espacios que compartimos".
-- Invita, no ordena: "te invitamos", "queremos invitarles", "contamos con su compromiso". Las normas se presentan como recomendaciones.
-- Conecta cada acción con un propósito o beneficio colectivo (bienestar, desarrollo, sostenibilidad, cultura).
-- Ideas clave en **negrita**. Frases claras, sin tecnicismos ni tono excesivamente institucional.
-
-ESTRUCTURA DE LOS CORREOS:
-1. Título corto y aspiracional (va en el banner). Puede llevar una etiqueta breve (ej. "Evaluación 3Q 2026").
-2. "¡Hola, equipo!"
-3. Primer párrafo: contexto y motivo de la comunicación, con la idea clave en negrita. Debe conectar directamente con el asunto y el título.
-4. CTA en la mitad del correo (si aplica). Si no hay CTA, un bloque destacado con el mensaje central.
-5. Desarrollo: párrafo de propósito/beneficio.
-6. Recuadro de puntos clave con encabezado ("¿Qué debemos tener en cuenta?", "Tengan en cuenta estas recomendaciones:") y 2-3 viñetas cortas.
-7. Párrafo de compromiso.
-8. Cierre destacado de agradecimiento o compromiso ("Gracias por…", "Contamos con…").
-
-ESTRUCTURA DE LAS CARTELERAS:
-- Título llamativo, exclamativo o tipo eslogan.
-- Subtítulo o línea de contexto (una frase).
-- 3-4 puntos muy cortos con la palabra clave en negrita.
-- Frase de cierre opcional. Extensión total de 30 a 60 palabras.
-- Si la comunicación tiene CTA, incluir una invitación a consultar el correo electrónico.
-
-PIEZAS DE REFERENCIA (fuente principal de estilo):
-
-[Correo 1 · con CTA]
-Título: Crecer, aprender y avanzar juntos — Etiqueta: Evaluación 3Q 2026
-¡Hola, equipo!
-Cada experiencia, aprendizaje y logro hacen parte del camino que construimos juntos. Por eso, queremos invitarte a realizar la **Evaluación de Desempeño 3Q - 2026** de tu equipo.
-[CTA: Hacer evaluación]
-(Recuadro) Este espacio es una oportunidad para **reconocer los avances de cada integrante, identificar oportunidades de crecimiento y acompañar el fortalecimiento de sus capacidades,** contribuyendo así a su **desarrollo** y al cumplimiento de **nuestros objetivos.**
-Tu mirada y retroalimentación son fundamentales para brindar a cada persona un acompañamiento cercano, identificar nuevos retos y seguir construyendo equipos que crecen juntos.
-Cierre: Gracias por ser parte activa de este proceso.
-
-[Correo 2 · sin CTA]
-Título: Un espacio limpio habla de nosotros
-¡Hola, equipo!
-(Bloque destacado) Queremos invitarles a seguir construyendo entre todos un ambiente de trabajo ordenado, limpio y alineado con nuestros estándares.
-Mantener nuestros puestos en óptimas condiciones no solo aporta a la organización, sino también al bienestar de todos en el día a día.
-Tengan en cuenta estas recomendaciones:
-- Mantengan el puesto en **perfecto orden y aseo.**
-- Eviten elementos ajenos a la operación, como **fotografías, tarjetas, plantas, accesorios,** entre otros.
-- Los puestos deben permanecer **limpios y sin objetos** de manera permanente.
-Cierre: Contamos con su compromiso para seguir cuidando estos espacios que compartimos.
-
-[Correo 3 · sin CTA]
-Título: Una acción simple con impacto positivo
-¡Hola, equipo!
-Si disfrutas una buena bebida caliente durante el día, **te invitamos a hacerlo aún más a tu estilo:** quienes lo deseen pueden traer su propio pocillo y usarlo en el dispensador.
-Un pequeño hábito que suma comodidad y también aporta al cuidado de nuestro entorno.
-Esta iniciativa hace parte de nuestro compromiso con el cuidado del medio ambiente y busca **reducir y, progresivamente, eliminar el uso de vasos plásticos y de papel** dentro de nuestras instalaciones.
-¿Qué debemos tener en cuenta?
-- Con esta acción contribuimos directamente a la disminución de residuos.
-- Pequeñas acciones individuales generan un impacto positivo colectivo.
-Creemos firmemente que este tipo de prácticas fortalece nuestra cultura de responsabilidad y conciencia ambiental. Contamos con la disposición y compromiso de todos para hacer de esta iniciativa un hábito permanente.
-Cierre: **Gracias por sumarse** a este cambio y por aportar, desde lo cotidiano, a un entorno más sostenible para todos.
-
-[Cartelera 1] ¡Ya está disponible! / Evaluación de Desempeño 3Q-2026 / Es momento de **reconocer los avances de tu equipo, identificar oportunidades de crecimiento** y **brindar una retroalimentación que impulse su desarrollo.** / Puntos: Evalúa con **objetividad.** · **Reconoce los logros** y destaca las fortalezas. · Brinda una **retroalimentación** clara y constructiva. · Identifica **oportunidades de crecimiento** y nuevos retos.
-[Cartelera 2] ¡Un espacio limpio habla de nosotros! / Entre todos construimos un mejor ambiente de trabajo. / Recuerda: • Mantener tu puesto en **perfecto orden y aseo.** • Evitar elementos ajenos a la operación (fotografías, tarjetas, plantas, accesorios, etc.). • Mantener el espacio **limpio y libre de objetos.** / Un espacio organizado nos ayuda a trabajar mejor cada día.
-[Cartelera 3] ¡Súmate al cambio! / **Usa tu pocillo personal** / Para disfrutar de las bebidas calientes del dispensador, ***te invitamos a usar tu propio pocillo.***
-
-REGLAS OBLIGATORIAS:
-- No inventes información, beneficios, condiciones, fechas, lugares, cifras ni datos que no estén en la solicitud.
-- Si falta un dato imprescindible (la pieza quedaría incompleta o tendrías que inventarlo), NO redactes: devuelve las preguntas. Si el dato faltante es opcional, omítelo y redacta.
-- ASUNTO: entrega UN solo asunto, el mejor. Para elegirlo, evalúa internamente enfoques como curiosidad, beneficio, urgencia, exclusividad, recordación y conversación cercana, y quédate con el que mejor funcione para este mensaje y este público (no muestres las alternativas). Debe generar interés y aumentar la apertura, con claridad, impacto y naturalidad, en la voz cálida e invitacional de la marca. Extensión óptima para móvil: entre 25 y 45 caracteres, con la idea clave en las primeras palabras. Evita asuntos genéricos ("Información importante", "Comunicado"), clickbait y señales de spam: nada en mayúsculas sostenidas, sin signos repetidos (!!), sin emojis, sin palabras como "gratis" o "urgente". La urgencia solo si la solicitud trae una fecha o plazo real; la exclusividad solo si aplica a un grupo real (líderes, un área). No prometas nada que no esté en la solicitud. Cada asunto debe conectar con el título y el primer párrafo del correo. Cumple el manual de estilo (signos de apertura ¿ ¡, mayúscula solo inicial y nombres propios, sin punto final).
-- El CTA va en la mitad del cuerpo, en infinitivo y con máximo 3 palabras. Tú propones el texto del CTA a partir de la intención indicada: debe describir con precisión la acción que la persona realizará al hacer clic. Cuenta las palabras antes de responder: artículos, preposiciones y posesivos también cuentan ("Inscribir a mis hijos" son 4 palabras y NO cumple; "Inscribir hijos" o "Hacer inscripción" sí).
-- Respeta el trato indicado (tú / ustedes) en toda la pieza.
-- Mensaje claro, atractivo y fácil de leer. Evita textos genéricos o innecesariamente largos.
-- Antes de responder, revisa cada pieza contra el MANUAL DE CORRECCIÓN DE ESTILO y corrige cualquier incumplimiento. Las piezas de referencia mandan en voz y estructura; el manual manda en ortografía, puntuación y redacción.
-
-MANUAL DE CORRECCIÓN DE ESTILO (Área de copy) — reglas aplicables:
-
-Números
-- Con letras los números que se escriben en una sola palabra (cinco, cincuenta, trescientos). Con cifras los que exigen cuatro o más palabras (32 423) y los decimales (1,5).
-- No mezclar cifras y letras: nunca "cuatro (4)".
-- Millones y superiores pueden ir con cifra + palabra si las tres últimas cifras son ceros (327 millones de pesos). Nunca "154 mil" ni "12 mil millones": escribe 154 000.
-- Separador de miles: espacio (1 530 111). Decimal: coma o punto. Años, páginas, códigos postales, leyes y decretos sin separador (2026, Ley 100).
-- Porcentaje pegado al número (84%). Mayores de diez en cifras; menores de diez en cifra o letra, sin combinar (3% o tres por ciento, nunca "tres %").
-- Unidades de medida separadas de la cifra, sin punto y en minúscula (40 km, 200 kg); cifra y símbolo nunca en líneas distintas.
-- Moneda: sin cantidad, en letras y minúscula (el dólar). No mezclar símbolo con palabras: "$7 000 000" o "7 millones de pesos", nunca "$7 millones"; "250 USD" mejor que "$250 estadounidenses".
-- Horas: 8:30 h o 8.30 h, sin espacios alrededor de los dos puntos. Fechas en texto: "lunes, 23 de enero de 2026" (coma entre día de la semana y día del mes). Rangos con guion: 23-45, 2025-2026.
-
-Puntuación
-- Signos de apertura obligatorios: ¿? y ¡!. Se abren donde empieza la pregunta o exclamación ("Si te animas, ¡te esperamos!"). Nunca punto después de ? o !.
-- Vocativos entre comas: "¡Hola, equipo!".
-- Punto siempre después de comillas, paréntesis y rayas de cierre. Sin punto final en títulos y subtítulos aislados en su renglón, ni en firmas o nombres solos.
-- Puntos suspensivos: solo tres, pegados a la palabra anterior; no combinar con "etc.". Nunca punto adicional tras ellos.
-- Coma: separa elementos de una enumeración; no va antes de y/e/o/u/ni que cierra una serie. Va delante de pero, aunque, sino, así que; detrás de conectores (además, sin embargo, por eso, es decir, por último, en cuanto a…); después de complementos o subordinadas antepuestas que no sean muy cortas ("Si vas a llegar tarde, avísanos"). Nunca coma entre sujeto y verbo.
-- Incisos entre comas, rayas (—) o paréntesis; la raya no se confunde con el guion.
-- Punto y coma para separar elementos complejos que ya llevan comas, y delante de sin embargo, por tanto, aunque cuando las oraciones son largas.
-- Dos puntos antes de enumeraciones explicativas; la palabra siguiente va en minúscula salvo citas, saludos de carta o nombres propios.
-- Listas en líneas independientes: si los ítems inician con minúscula, cierran con punto y coma y el último con punto; si inician con mayúscula, cada ítem cierra con punto. Mantén coherencia entre todos los ítems.
-- Comillas: preferir angulares « »; luego “ ” y luego ‘ ’ para citas anidadas.
-
-Mayúsculas y títulos
-- Títulos de piezas, artículos y secciones: solo mayúscula inicial y nombres propios ("Un espacio limpio habla de nosotros").
-- Nombres de cursos, programas o procesos con nombre propio: mayúscula en las palabras con valor ("Evaluación de Desempeño"); si el nombre es muy extenso, solo la inicial.
-- Efemérides y fechas especiales con mayúscula (Navidad, Año Nuevo, Día del Maestro). Meses y días en minúscula.
-- Cargos, profesiones y disciplinas en minúscula (la gerente, el coordinador de talento humano), salvo que formen parte de un nombre propio (Departamento de Medicina Interna).
-- Calles y espacios: genérico en minúscula (la calle Mayor, la plaza de Armas).
-- Los títulos expresivos usan signos de exclamación. Los títulos deben ser sencillos, atractivos, breves, completos y escritos desde la perspectiva del lector.
-
-Abreviaturas, siglas y extranjerismos
-- Abreviaturas con punto y tilde cuando aplique (pág., C.ía); con número, espacio (20 págs.); nunca separadas a final de línea ni solas en un renglón.
-- Siglas: escribir primero el nombre completo y luego la sigla entre paréntesis, salvo las muy conocidas. Sin puntos ni espacios; plural invariable (las ONG, nunca ONGs ni ONG's).
-- Extranjerismos en cursiva (*marketing*, *feedback*); prefiere el equivalente en español cuando exista.
-
-Ortografía
-- Revisa b/v, c/s/z, g/j, h, tildes (incluidas mayúsculas) y diéresis (vergüenza, lingüística). Los prefijos se unen a la palabra (antiestrés), con guion solo ante sigla o mayúscula (anti-OTAN).
-
-Redacción de párrafos
-- Estructura básica sujeto + verbo + complemento; una idea clave por párrafo, con hilo conductor entre párrafos.
-- Para contenidos digitales, párrafos de máximo cinco líneas; prefiere listas para facilitar la lectura.
-- Evita frases demasiado cortadas o con exceso de pausas, tecnicismos y palabras rebuscadas. Brevedad, sencillez, precisión y coherencia.`;
-
-const FORMATO = `FORMATO DE RESPUESTA: responde SOLO con un objeto JSON con esta forma exacta:
-{
-  "preguntas": [string],            // vacío si puedes redactar sin inventar
-  "correo": null | {
-    "asunto": string,              // uno solo, el mejor; sin explicaciones
-    "titulo": string,
-    "etiqueta": string,             // "" si no aplica
-    "cuerpo": string,               // empieza con "¡Hola, equipo!". Párrafos separados por línea en blanco. Viñetas con "- ". Negritas con **así**. Bloque destacado o recuadro: línea que empieza con "> ". Si hay CTA, una línea que diga exactamente [CTA] en el punto medio. NO incluyas el cierre aquí.
-    "cta": string,                  // "" si no lleva CTA
-    "cierre": string
-  },
-  "cartelera": null | {
-    "titulo": string,
-    "subtitulo": string,
-    "copy": string                  // líneas cortas; viñetas con "- "; negritas con **así**
-  },
-  "notas": [string]                 // decisiones u observaciones breves para quien revisa; vacío si no hay
-}
-Si devuelves preguntas imprescindibles, "correo" y "cartelera" van en null. Genera solo las piezas solicitadas; la otra va en null.`;
-
-const EXAMPLE = {
-  preguntas: [],
-  correo: {
-    asunto: "¿Cómo avanzó tu equipo este trimestre?",
-    titulo: "Crecer, aprender y avanzar juntos",
-    etiqueta: "Evaluación 3Q 2026",
-    cuerpo: "¡Hola, equipo!\n\nCada experiencia, aprendizaje y logro hacen parte del camino que construimos juntos. Por eso, queremos invitarte a realizar la **Evaluación de Desempeño 3Q - 2026** de tu equipo.\n\n[CTA]\n\n> Este espacio es una oportunidad para **reconocer los avances de cada integrante, identificar oportunidades de crecimiento y acompañar el fortalecimiento de sus capacidades,** contribuyendo así a su **desarrollo** y al cumplimiento de **nuestros objetivos.**\n\nTu mirada y retroalimentación son fundamentales para brindar a cada persona un acompañamiento cercano, identificar nuevos retos y seguir construyendo equipos que crecen juntos.",
-    cta: "Hacer evaluación",
-    cierre: "Gracias por ser parte activa de este proceso."
-  },
-  cartelera: {
-    titulo: "¡Ya está disponible!",
-    subtitulo: "Evaluación de Desempeño 3Q-2026",
-    copy: "Es momento de **reconocer los avances de tu equipo.**\n- Evalúa con **objetividad.**\n- **Reconoce los logros** y destaca las fortalezas.\n- Brinda una **retroalimentación** clara y constructiva.\n- Identifica **oportunidades de crecimiento.**\nConsulta tu correo e ingresa a la evaluación."
-  },
-  notas: []
-};
-const EXAMPLE_FORM = {
-  tipo:"ambos", trato:"tu", cta:"si",
-  tema:"Invitar a los líderes a realizar la Evaluación de Desempeño 3Q-2026 de su equipo.",
-  info:"La evaluación ya está disponible.\nPropósito: reconocer los avances de cada integrante, identificar oportunidades de crecimiento y brindar retroalimentación que impulse su desarrollo.",
-  remitente:"Gestión de Talento Humano",
-  ctaIntent:"Que el líder ingrese y realice la evaluación de su equipo",
-  extra:""
-};
 
 const $ = s => document.querySelector(s);
 const state = { tipo:"ambos", trato:"tu", cta:"si", result:null, isExample:false, brief:null, qa:[] };
 const EMPTY_FORM = { tipo:"ambos", trato:"tu", cta:"si", tema:"", info:"", remitente:"Gestión de Talento Humano", ctaIntent:"", extra:"" };
 let ctl = null;
-const samplePromise = (window.claude && window.claude.use) ? window.claude.use("sample").catch(()=>null) : Promise.resolve(null);
+/* ---------- CONFIGURACIÓN: pega aquí la dirección de tu Cloudflare Worker ---------- */
+const API_URL = "https://comunicaciones-prepital.TU-SUBDOMINIO.workers.dev";
 
 /* ---------- storage (per-viewer convenience) ---------- */
 const store = {
@@ -450,23 +291,36 @@ function qaText(){ return state.qa.length ? "\n\nRESPUESTAS A TUS PREGUNTAS:\n" 
 
 /* ---------- generation ---------- */
 const ERR = {
-  not_granted:"No se autorizó el uso de Claude en esta página. Puedes activarlo desde los permisos del artefacto.",
-  sampling_disabled:"Claude no está disponible para esta cuenta.",
-  rate_limited:"Alcanzaste el límite de solicitudes por ahora. Intenta de nuevo en unos minutos.",
-  session_expired:"Tu sesión expiró. Vuelve a iniciar sesión e inténtalo de nuevo.",
-  refused:"Claude no pudo redactar esta solicitud. Ajusta el tema o la información e inténtalo de nuevo.",
+  401:"El código de acceso no es válido. Revísalo en el campo «Código de acceso del equipo».",
+  403:"Esta página no tiene permiso para usar el servicio. Revisa la configuración del Worker (ALLOWED_ORIGIN).",
+  413:"La información es demasiado extensa. Resume la información clave.",
+  429:"Se alcanzó el límite de solicitudes por ahora. Intenta de nuevo en unos minutos.",
   invalid_json:"La respuesta llegó con un formato inesperado. Vuelve a generar.",
-  empty_completion:"No llegó ninguna respuesta. Simplifica la solicitud e inténtalo de nuevo.",
-  prompt_too_large:"La información es demasiado extensa. Resume la información clave."
+  config:"Falta configurar la dirección del servicio (API_URL) en el index.html."
 };
-async function run(prompt, label){
-  const sample = await samplePromise;
-  if (!sample){ showStatus("La generación con Claude solo funciona al abrir esta página en claude.ai.", true); return; }
+function parseJSON(text){
+  const t = String(text||"").trim();
+  try{ return JSON.parse(t); }catch{}
+  const fence = t.match(/```(?:json)?\s*([\s\S]*?)```/i);
+  if (fence){ try{ return JSON.parse(fence[1]); }catch{} }
+  const a = t.indexOf("{"), b = t.lastIndexOf("}");
+  if (a >= 0 && b > a){ try{ return JSON.parse(t.slice(a, b+1)); }catch{} }
+  return null;
+}
+async function run(payload, label){
+  if (!API_URL || API_URL.includes("TU-SUBDOMINIO")){ showStatus(ERR.config, true); return; }
   ctl = new AbortController();
   $("#go").disabled = true; $("#stop").hidden = false;
-  showStatus(label || "Analizando la solicitud…");
+  showStatus(label || "Redactando la pieza…");
   try{
-    const r = await sample.json(prompt, { signal: ctl.signal, cache:false, onText: () => showStatus("Redactando la pieza…") });
+    const res = await fetch(API_URL, {
+      method:"POST", signal: ctl.signal,
+      headers:{ "Content-Type":"application/json", "X-Codigo-Acceso": $("#codigo").value.trim() },
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw { code: res.status };
+    const data = await res.json();
+    const r = parseJSON(data.text);
     if (!r || typeof r !== "object") throw { code:"invalid_json" };
     r.preguntas = Array.isArray(r.preguntas) ? r.preguntas.filter(Boolean) : [];
     r.notas = Array.isArray(r.notas) ? r.notas.filter(Boolean) : (r.notas ? [String(r.notas)] : []);
@@ -475,8 +329,8 @@ async function run(prompt, label){
     render();
     $("#out").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block:"start" });
   }catch(e){
-    if (e && e.code === "cancelled"){ render(); return; }
-    showStatus(ERR[e && e.code] || "Hubo un problema de conexión. Vuelve a intentarlo.", true);
+    if (e && e.name === "AbortError"){ render(); return; }
+    showStatus(ERR[e && e.code] || "Hubo un problema de conexión con el servicio. Vuelve a intentarlo.", true);
   }finally{
     $("#go").disabled = false; $("#stop").hidden = true; ctl = null;
   }
@@ -489,18 +343,18 @@ $("#brief").addEventListener("submit", e => {
   if (!f.tema){ $("#tema").focus(); showStatus("Escribe el tema y objetivo de la comunicación.", true); return; }
   if (f.cta === "si" && !f.ctaIntent){ $("#ctaIntent").focus(); showStatus("Cuéntame la intención del CTA: qué debe hacer la persona al hacer clic.", true); return; }
   state.brief = f; state.qa = [];
-  run(`${GUIA}\n\n${FORMATO}\n\n${briefText(f)}`);
+  run({ accion:"generar", solicitud: briefText(f) });
 });
 
 function answerQuestions(){
   const qs = state.result.preguntas;
   qs.forEach((q,i) => { const a = ($("#qa"+i)||{}).value || ""; state.qa.push({ q, a:a.trim() }); });
-  run(`${GUIA}\n\n${FORMATO}\n\n${briefText(state.brief || readForm())}${qaText()}\n\nCon estas respuestas, redacta las piezas. Pregunta de nuevo solo si sigue faltando algo imprescindible.`, "Redactando con tus respuestas…");
+  run({ accion:"responder", solicitud: briefText(state.brief || readForm()) + qaText() }, "Redactando con tus respuestas…");
 }
 function refine(){
   const ask = $("#refineTxt").value.trim(); if (!ask){ $("#refineTxt").focus(); return; }
   const cur = { ...state.result }; delete cur.preguntas;
-  run(`${GUIA}\n\n${FORMATO}\n\n${briefText(state.brief || readForm())}${qaText()}\n\nVERSIÓN ACTUAL:\n${JSON.stringify(cur)}\n\nAJUSTE SOLICITADO: ${ask}\n\nAplica solo el ajuste pedido, conserva lo demás y respeta todas las reglas. Devuelve las piezas completas en el mismo formato.`, "Aplicando el ajuste…");
+  run({ accion:"ajustar", solicitud: briefText(state.brief || readForm()) + qaText(), actual: cur, ajuste: ask }, "Aplicando el ajuste…");
 }
 
 /* ---------- rendering ---------- */
@@ -621,6 +475,8 @@ function renderHistory(){
 
 /* ---------- init ---------- */
 fillForm(store.get("copy-borrador", null) || EMPTY_FORM);
+$("#codigo").value = store.get("copy-codigo", "");
+$("#codigo").addEventListener("input", () => store.set("copy-codigo", $("#codigo").value));
 render(); renderHistory();
 </script>
 
